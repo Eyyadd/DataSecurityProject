@@ -1,18 +1,19 @@
-﻿@inject IHttpContextAccessor HttpContextAccessor
-@{
+﻿@{
     ViewData["Title"] = "Home";
-    var userPlan = HttpContextAccessor.HttpContext?.Session.GetString("UserPlan") ?? "Free";
+    var loggedInUser = Context.Session.GetString("user");
+
 
 }
 
 <div class="home-container">
-    @if (User.Identity.IsAuthenticated)
+    @if (!string.IsNullOrEmpty(loggedInUser))
     {
+        var name = loggedInUser.Substring(0, loggedInUser.IndexOf("@"));
         <!-- Dashboard for authenticated users -->
         <div class="dashboard container py-5">
             <div class="dashboard-header d-flex justify-content-between align-items-center mb-4 flex-wrap">
                 <div class="welcome-message">
-                    <h1 class="fw-bold display-5 text-primary mb-2">Welcome back, <span class="user-name">@ViewBag.UserName</span></h1>
+                    <h1 class="fw-bold display-5 text-primary mb-2">Welcome back, <span class="user-name">@name</span></h1>
                     <p class="text-muted fs-5">Your personal data security dashboard</p>
                 </div>
                 <div class="quick-actions d-flex gap-3">
@@ -22,6 +23,13 @@
                     <a asp-controller="Encryption" asp-action="Decrypt" class="btn btn-outline-primary shadow-sm px-4 py-2 rounded-pill">
                         <i class="bi bi-unlock"></i> View Decrypted Data
                     </a>
+                    <a  asp-controller="EncryptionRSA" asp-action="Encrypt" class="btn btn-primary shadow-sm px-4 py-2 rounded-pill">
+                        <i class="bi bi-shield-lock-fill"></i> RSA Encrypt
+                    </a>
+                    <a asp-controller="EncryptionRSA" asp-action="Decrypt" class="btn btn-outline-primary shadow-sm px-4 py-2 rounded-pill">
+                        <i class="bi bi-shield-slash"></i> RSA Decrypt
+                    </a>
+
                 </div>
             </div>
 

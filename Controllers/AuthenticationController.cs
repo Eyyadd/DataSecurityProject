@@ -53,7 +53,7 @@ namespace DataSecurityProject.Controllers
             }
 
             HttpContext.Session.SetString("user", email);
-            return RedirectToAction("Encrypt", "Encryption");
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Logout()
@@ -103,7 +103,7 @@ namespace DataSecurityProject.Controllers
             return View();
         }
 
-        public IActionResult ResetRequest() => View();
+        public IActionResult ResetRequest() => View("ResetPassword");
 
         [HttpPost]
         public IActionResult ResetRequest(string email)
@@ -121,7 +121,7 @@ namespace DataSecurityProject.Controllers
             }
 
             ViewBag.Email = email;
-            return View("ResetPassword");
+            return View("ResetPasswordV");
         }
 
         [HttpPost]
